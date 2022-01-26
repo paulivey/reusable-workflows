@@ -8,9 +8,16 @@ on:
           
 jobs:
 
-  reused-job:
-    name: Reused job
+  reused-job-test:
+    name: Reused job (test)
     environment: test
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo ${{ secrets.TEST }}
+
+  reused-job-test2:
+    name: Reused job (test2)
+    environment: test2
     runs-on: ubuntu-latest
     steps:
     - run: echo ${{ secrets.TEST }}
