@@ -3,6 +3,12 @@ name: Reusable workflow
 on:
   workflow_call:
     inputs:
+      terraform-rg:
+        type: string
+        required: true
+      terraform-rg-suffix:
+        type: string
+        required: true
       environment:
         type: string
         required: true
@@ -34,7 +40,13 @@ on:
         required: true
     
     secrets:
+      ARM_CLIENT_ID:
+        required: true
       ARM_TENANT_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+      ARM_SUBSCRIPTION_ID:
         required: true
       AD_SQL_ADMIN_NAME:
         required: true
@@ -42,7 +54,15 @@ on:
         required: true
       SQL_SERVER_ADMIN_PASSWORD:
         required: true
-          
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}      #It's specific to DEV. So need to replace it with appropriate value for each environment.
+  ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}  #It's specific to DEV. So need to replace it with appropriate value for each environment.
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  Terraform-RG-SUFFIX: ${{ inputs.terraform-rg-suffix }}
+  Terraform-RG: ${{ inputs.terraform-rg }}
+
 jobs:
   shared:
     name: Provision shared infra
