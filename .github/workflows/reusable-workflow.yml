@@ -32,7 +32,16 @@ on:
       storage-account-replication:
         type: string
         required: true
-      
+    
+    secrets:
+      ARM_TENANT_ID:
+        required: true
+      AD_SQL_ADMIN_NAME:
+        required: true
+      AD_SQL_ADMIN_OBJECT_ID:
+        required: true
+      SQL_SERVER_ADMIN_PASSWORD:
+        required: true
           
 jobs:
   shared:
@@ -64,7 +73,7 @@ jobs:
           Resource-Suffix: ${{ inputs.resource-suffix }}
           AD_SQL_ADMIN_NAME: ${{ secrets.AD_SQL_ADMIN_NAME }}
           AD_SQL_ADMIN_OBJECT_ID: ${{ secrets.AD_SQL_ADMIN_OBJECT_ID }}
-          SQL_SERVER_ADMIN_PASSWORD: ${{secrets.SQL_SERVER_DEV_ADMIN_PASSWORD}}
+          SQL_SERVER_ADMIN_PASSWORD: ${{secrets.SQL_SERVER_ADMIN_PASSWORD}}
           SQL_SKU_NAME: ${{ inputs.sql-sku-name }}
           Storage-Account-Replication: ${{ inputs.storage-account-replication }}
           
