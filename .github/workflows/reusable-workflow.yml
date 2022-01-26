@@ -94,8 +94,7 @@ jobs:
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
             az keyvault create -n 'kv-dev-eu-pocmthnl-001' -l '${{ inputs.region }}' -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' --enabled-for-template-deployment true
-
-#            az keyvault set-policy -n 'kv-dev-eu-pocmthnl-001' --key-permissions get list update create --secret-permissions get list set --object-id '${{ secrets.ARM_CLIENT_ID }}'
+            az keyvault set-policy -n 'kv-dev-eu-pocmthnl-001' --key-permissions get list update create --secret-permissions get list set --object-id '${{ secrets.ARM_CLIENT_ID }}'
       
       - uses: cschleiden/replace-tokens@v1
         name: Set up Terraform vars
