@@ -59,7 +59,7 @@ jobs:
       - uses: cschleiden/replace-tokens@v1
         name: Set up Terraform vars
         with:
-          files: '["**/*.tf*"]'
+          files: '["**/*.tf*"]' # TODO: Be more explicit in the files, rather than using wildcards
         env:  #Below environment variables will be used in terraform scripts. So changing them will update the azure resource.
           Environment-Name: ${{ inputs.environment }}
           Environment-Name-Suffix: ${{ inputs.environment }}
