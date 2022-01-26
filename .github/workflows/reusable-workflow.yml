@@ -105,6 +105,10 @@ jobs:
 
       - run: terraform init
         name: Terraform Init
+      
+      # DEBUG
+      - run: cat ./main.tf
+        name: DEBUG cat main.tf
 
       - run: terraform fmt -check
         name: Terraform Format
