@@ -2,6 +2,10 @@ name: Reusable workflow
 
 on:
   workflow_call:
+    inputs:
+      Terraform-RG-SUFFIX:
+        type: string
+        required: true
           
 jobs:
 
