@@ -132,9 +132,6 @@ jobs:
       - run: terraform apply --auto-approve 'tfplan.bin'
         name: Terraform Apply
 
-
-
-
   shared:
     name: Provision shared infra
     needs: [prerequisites]
@@ -152,14 +149,6 @@ jobs:
         uses: Azure/login@v1.4.3
         with:
           creds: ${{ secrets.AZURE_CREDS }}
-      
-      # Create resource groups
-#      - name: Setup backend
-#        uses: Azure/cli@v1.0.6
-#        with:
-#          inlineScript: |
-#            az keyvault create -n 'kv-dev-eu-pocmthnl-001' -l '${{ inputs.region }}' -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' --enabled-for-template-deployment true
-#            az keyvault set-policy -n 'kv-dev-eu-pocmthnl-001' --key-permissions get list update create --secret-permissions get list set --object-id '${{ secrets.ARM_CLIENT_ID }}'
       
       - uses: cschleiden/replace-tokens@v1
         name: Set up Terraform vars
