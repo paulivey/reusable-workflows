@@ -66,8 +66,8 @@ env:
   Terraform-RG: ${{ inputs.terraform-rg }}
 
 jobs:
-  prerequisites:
-    name: Prerequisites
+  shared-prerequisites:
+    name: Shared Prereqs
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     defaults:
@@ -133,13 +133,13 @@ jobs:
         name: Terraform Apply
 
   shared:
-    name: Provision shared infra
-    needs: [prerequisites]
+    name: Shared infra
+    needs: [shared-prerequisites]
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     defaults:
       run:
-        working-directory: Terraform/Methanol/Shared
+        working-directory: Terraform/Methanol/Shared/Infra
     
     steps:
       - name: Checkout repo
