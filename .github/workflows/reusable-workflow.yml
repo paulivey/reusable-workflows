@@ -5,10 +5,10 @@ on:
     inputs:
       prereqs:
         type: boolean
-        required: false
+        required: true
       infra:
         type: boolean
-        required: false
+        required: true
       terraform-rg:
         type: string
         required: true
