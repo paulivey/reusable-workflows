@@ -70,9 +70,6 @@ jobs:
     name: Shared Prereqs
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-    defaults:
-      run:
-        working-directory: Terraform/Methanol/Shared/Prerequisites
     
     steps:
       - name: Checkout repo
@@ -102,7 +99,7 @@ jobs:
     environment: ${{ inputs.environment }}
     defaults:
       run:
-        working-directory: Terraform/Methanol/Shared/Infra
+        working-directory: Terraform/Methanol/Shared
     
     steps:
       - name: Checkout repo
