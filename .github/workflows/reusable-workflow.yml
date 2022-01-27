@@ -84,17 +84,16 @@ jobs:
           creds: ${{ secrets.AZURE_CREDS }}
       
       # Create resource groups
-      - name: Create prerequisites
+      - name: Setup backend
         uses: Azure/cli@v1.0.6
         with:
           inlineScript: |
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.terraform-rg }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
             az storage account create -n 'pivey${{ inputs.environment }}${{ inputs.region-short }}terraform${{ inputs.resource-suffix }}' -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.terraform-rg }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}' --sku 'Standard_LRS'
             az storage container create -n 'terraform' --account-name 'pivey${{ inputs.environment }}${{ inputs.region-short }}terraform${{ inputs.resource-suffix }}' --auth-mode login
-            az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
-            az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
-            az keyvault create -n 'kv-dev-eu-pocmthnl-001' -l '${{ inputs.region }}' -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' --enabled-for-template-deployment true
-            az keyvault set-policy -n 'kv-dev-eu-pocmthnl-001' --key-permissions get list update create --secret-permissions get list set --object-id '${{ secrets.ARM_CLIENT_ID }}'
+
+#            az keyvault create -n 'kv-dev-eu-pocmthnl-001' -l '${{ inputs.region }}' -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' --enabled-for-template-deployment true
+#            az keyvault set-policy -n 'kv-dev-eu-pocmthnl-001' --key-permissions get list update create --secret-permissions get list set --object-id '${{ secrets.ARM_CLIENT_ID }}'
       
       - uses: cschleiden/replace-tokens@v1
         name: Set up Terraform vars
