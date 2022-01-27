@@ -66,13 +66,13 @@ env:
   Terraform-RG: ${{ inputs.terraform-rg }}
 
 jobs:
-  shared:
-    name: Provision shared infra
+  prerequisites:
+    name: Prerequisites
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     defaults:
       run:
-        working-directory: Terraform/Methanol/Shared
+        working-directory: Terraform/Methanol/Shared/Prerequisites
     
     steps:
       - name: Checkout repo
@@ -91,7 +91,73 @@ jobs:
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.terraform-rg }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
             az storage account create -n 'pivey${{ inputs.environment }}${{ inputs.region-short }}terraform${{ inputs.resource-suffix }}' -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.terraform-rg }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}' --sku 'Standard_LRS'
             az storage container create -n 'terraform' --account-name 'pivey${{ inputs.environment }}${{ inputs.region-short }}terraform${{ inputs.resource-suffix }}' --auth-mode login
+      
+      - uses: cschleiden/replace-tokens@v1
+        name: Set up Terraform vars
+        with:
+          files: '["**/*.tf*"]' # TODO: Be more explicit in the files, rather than using wildcards
+        env:
+          Environment-Name: ${{ inputs.environment }}
+          Environment-Name-Suffix: ${{ inputs.environment }}
+          Environment-Name-Suffix-Short: ${{ inputs.environment }}
+          Project-Name: ${{ inputs.project-name }}
+          Methanol-Project-Name: ${{ inputs.methanol-project-name }}
+          Region-Short: ${{ inputs.region-short }}
+          Is-DR: ${{ inputs.is-dr }}
+          Region: ${{ inputs.region }}
+          ActiveDirectory-Tenant-Id: ${{ secrets.ARM_TENANT_ID }}
+          Resource-Suffix: ${{ inputs.resource-suffix }}
+          AD_SQL_ADMIN_NAME: ${{ secrets.AD_SQL_ADMIN_NAME }}
+          AD_SQL_ADMIN_OBJECT_ID: ${{ secrets.AD_SQL_ADMIN_OBJECT_ID }}
+          SQL_SERVER_ADMIN_PASSWORD: ${{secrets.SQL_SERVER_ADMIN_PASSWORD}}
+          SQL_SKU_NAME: ${{ inputs.sql-sku-name }}
+          Storage-Account-Replication: ${{ inputs.storage-account-replication }}
+          
+      - uses: hashicorp/setup-terraform@v1
+        name: Setup Terraform
+        with:
+          terraform_version: 0.15.4
+          terraform_wrapper: false
 
+      - run: terraform init
+        name: Terraform Init
+
+      # Removing this for now
+      #- run: terraform fmt -check
+      #  name: Terraform Format
+
+      - run: terraform plan -out=tfplan.bin --var-file=variables.tfvars -input=false
+        name: Terraform Plan
+
+      - run: terraform apply --auto-approve 'tfplan.bin'
+        name: Terraform Apply
+
+
+
+
+  shared:
+    name: Provision shared infra
+    needs: [prerequisites]
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        working-directory: Terraform/Methanol/Shared
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+              
+      - name: Azure Login
+        uses: Azure/login@v1.4.3
+        with:
+          creds: ${{ secrets.AZURE_CREDS }}
+      
+      # Create resource groups
+#      - name: Setup backend
+#        uses: Azure/cli@v1.0.6
+#        with:
+#          inlineScript: |
 #            az keyvault create -n 'kv-dev-eu-pocmthnl-001' -l '${{ inputs.region }}' -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' --enabled-for-template-deployment true
 #            az keyvault set-policy -n 'kv-dev-eu-pocmthnl-001' --key-permissions get list update create --secret-permissions get list set --object-id '${{ secrets.ARM_CLIENT_ID }}'
       
