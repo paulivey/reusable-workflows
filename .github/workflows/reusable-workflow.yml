@@ -3,6 +3,12 @@ name: Reusable workflow
 on:
   workflow_call:
     inputs:
+      prereqs:
+        type: boolean
+        required: false
+      infra:
+        type: boolean
+        required: false
       terraform-rg:
         type: string
         required: true
@@ -67,6 +73,7 @@ env:
 
 jobs:
   shared-prerequisites:
+    if: ${{ github.event.inputs.prereqs == 'true' }}
     name: Shared Prereqs
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
@@ -134,6 +141,7 @@ jobs:
 
   shared:
     name: Shared infra
+    if: ${{ github.event.inputs.infra == 'true' }}
     needs: [shared-prerequisites]
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
