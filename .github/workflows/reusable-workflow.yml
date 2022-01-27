@@ -73,7 +73,7 @@ env:
 
 jobs:
   shared-prerequisites:
-    if: ${{ github.event.inputs.prereqs == 'true' }}
+#    if: ${{ github.event.inputs.prereqs == 'true' }}
     name: Shared Prereqs
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
@@ -141,7 +141,7 @@ jobs:
 
   shared:
     name: Shared infra
-    if: ${{ github.event.inputs.infra == 'true' }}
+#    if: ${{ github.event.inputs.infra == 'true' }}
     needs: [shared-prerequisites]
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
