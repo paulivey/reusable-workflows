@@ -70,9 +70,6 @@ jobs:
     name: Shared Prereqs
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-    defaults:
-      run:
-        working-directory: Terraform/Methanol
     
     steps:
       - name: Checkout repo
@@ -93,7 +90,7 @@ jobs:
             az storage container create -n 'terraform' --account-name 'pivey${{ inputs.environment }}${{ inputs.region-short }}terraform${{ inputs.resource-suffix }}' --auth-mode login
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
-            az deployment group create -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -n 'BicepTest_${{ github.run_number	}}' -f ${{ github.workspace }}/Terraform/Methanol/deploy.bicep
+            az deployment group create -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -n 'BicepTest_${{ github.run_number	}}' -f ./Terraform/Methanol/deploy.bicep
 
   shared:
     name: Shared infra
