@@ -1,27 +1,14 @@
 name: '01_Storage'
+
 on:
   workflow_dispatch:
     inputs:
-      resource_group:
-        description: 'Azure Resource Group where the storage account is to be hosted'
-        required: true
-        type: string
-      storage-name:
-        description: 'Name for new storage account'
-        required: true
-        type: string
       location:
-        description: 'Azure region to use'
         required: true
-        type: string
+        type: text
 
 jobs:
-  Terraform:
-    #terraform
-    name: 'Terraform Plan'
+  test:
     runs-on: ubuntu-latest
-
     steps:
-
-    - run: echo ${{ inputs.location }}
-    
+      - run: echo ${{ inputs.location }}
