@@ -1,44 +1,6 @@
 name: Reusable workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      terraform-rg:
-        type: string
-        required: true
-      terraform-rg-suffix:
-        type: string
-        required: true
-      environment:
-        type: string
-        required: true
-        description: Target environment (e.g. dev)
-      project-name:
-        type: string
-        required: true
-      methanol-project-name:
-        type: string
-        required: true
-      region-short:
-        type: string
-        required: true
-      is-dr:
-        type: boolean
-        required: true
-        default: false
-      region:
-        type: string
-        required: true
-      resource-suffix:
-        type: string
-        required: true
-      sql-sku-name:
-        type: string
-        required: true
-      storage-account-replication:
-        type: string
-        required: true
-
   workflow_call:
     inputs:
       terraform-rg:
