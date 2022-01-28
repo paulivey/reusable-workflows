@@ -90,9 +90,10 @@ jobs:
             az storage container create -n 'terraform' --account-name 'pivey${{ inputs.environment }}${{ inputs.region-short }}terraform${{ inputs.resource-suffix }}' --auth-mode login
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
-            az deployment group create -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -n 'BicepTest_${{ github.run_number	}}' -f ./Terraform/Methanol/deploy.bicep
             az keyvault create -n 'kv-${{ inputs.environment }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}' -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}'
             az keyvault set-policy -n 'kv-${{ inputs.environment }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' --key-permissions all --secret-permissions all --spn ${{ secrets.ARM_CLIENT_ID }}
+            
+#            az deployment group create -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -n 'BicepTest_${{ github.run_number	}}' -f ./Terraform/Methanol/deploy.bicep
             
      # Logout
       - name: Az logout
