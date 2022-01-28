@@ -70,14 +70,14 @@ jobs:
     name: Shared Prereqs
     uses: iveylabs/reusable-workflows/.github/workflows/infra/shared/t-shared-prereqs.yml@main
     with:
-      terraform-rg: 'PISHARED'
-      terraform-rg-suffix: 'DEV'
-      environment: 'dev'
-      project-name: 'pipoc'
-      methanol-project-name: 'pipocmthnl'
-      region-short: 'eu'
-      region: 'West Europe'
-      resource-suffix: '001'
+      terraform-rg: '${{ inputs.terraform-rg }}'
+      terraform-rg-suffix: '${{ inputs.terraform-rg-suffix }}'
+      environment: '${{ inputs.environment }}'
+      project-name: '${{ inputs.project-name }}'
+      methanol-project-name: '${{ inputs.methanol-project-name }}'
+      region-short: '${{ inputs.region-short }}'
+      region: '${{ inputs.region }}'
+      resource-suffix: '${{ inputs.resource-suffix }}'
     secrets:
       AZURE_CREDS: ${{ secrets.AZURE_CREDS }}
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
