@@ -1,4 +1,4 @@
-name: Reusable workflow
+name: Shared infra
 
 on:
   workflow_call:
@@ -58,8 +58,8 @@ on:
         required: true
 
 env:
-  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}      #It's specific to DEV. So need to replace it with appropriate value for each environment.
-  ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}  #It's specific to DEV. So need to replace it with appropriate value for each environment.
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   Terraform-RG-SUFFIX: ${{ inputs.terraform-rg-suffix }}
@@ -68,6 +68,8 @@ env:
 jobs:
   shared-prerequisites:
     name: Shared prereqs
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
