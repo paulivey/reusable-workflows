@@ -68,7 +68,7 @@ env:
 jobs:
   shared-prerequisites:
     name: Shared Prereqs
-    uses: iveylabs/reusable-workflows/.github/workflows/infra/shared/t-shared-prereqs.yml@main
+    uses: iveylabs/reusable-workflows/.github/workflows/t-infra-shared-prereqs.yml@main
     with:
       terraform-rg: '${{ inputs.terraform-rg }}'
       terraform-rg-suffix: '${{ inputs.terraform-rg-suffix }}'
