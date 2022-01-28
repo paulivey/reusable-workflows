@@ -1,23 +1,27 @@
-name: Testing
-
+name: '01_Storage'
 on:
-  workflow_call:
-    secrets:
-      TEST:
+  workflow_dispatch:
+    inputs:
+      resource_group:
+        description: 'Azure Resource Group where the storage account is to be hosted'
         required: true
-          
+        type: string
+      storage-name:
+        description: 'Name for new storage account'
+        required: true
+        type: string
+      location:
+        description: 'Azure region to use'
+        required: true
+        type: string
+
 jobs:
-
-  reused-job-test:
-    name: Reused job (test)
-    environment: test
+  Terraform:
+    #terraform
+    name: 'Terraform Plan'
     runs-on: ubuntu-latest
-    steps:
-    - run: echo ${{ secrets.TEST }}
 
-  reused-job-test2:
-    name: Reused job (test2)
-    environment: test2
-    runs-on: ubuntu-latest
     steps:
-    - run: echo ${{ secrets.TEST }}
+
+    - run: echo ${{ inputs.location }}
+    
