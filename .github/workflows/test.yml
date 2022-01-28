@@ -11,4 +11,4 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ inputs.location }}
+      - run: echo ${{ github.event.inputs.location }}
