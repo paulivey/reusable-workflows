@@ -91,6 +91,12 @@ jobs:
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
             az group create -n 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.project-name }}-${{ inputs.resource-suffix }}' -l '${{ inputs.region }}'
             az deployment group create -g 'RG-${{ inputs.terraform-rg-suffix }}-${{ inputs.region-short }}-${{ inputs.methanol-project-name }}-${{ inputs.resource-suffix }}' -n 'BicepTest_${{ github.run_number	}}' -f ./Terraform/Methanol/deploy.bicep
+            
+     # Logout
+      - name: Az logout
+        uses: Azure/cli@v1.0.6
+        with:
+          inlineScript: az logout
 
   shared:
     name: Shared infra
