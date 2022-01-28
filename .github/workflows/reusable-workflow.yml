@@ -104,11 +104,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-              
-      - name: Azure Login
-        uses: Azure/login@v1.4.3
-        with:
-          creds: ${{ secrets.AZURE_CREDS }}
       
       - uses: cschleiden/replace-tokens@v1
         name: Set up Terraform vars
